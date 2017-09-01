@@ -29,6 +29,10 @@ contimgs.path = /usr/share/harbour-aladrati/images/contributors
 contimgs.files = images/contributors/*
 INSTALLS += contimgs
 
+speedtest.path = /usr/share/harbour-aladrati
+speedtest.files = ../speedtest-cli/speedtest.py
+INSTALLS += speedtest
+
 SOURCES += \
     src/main.cpp
 
