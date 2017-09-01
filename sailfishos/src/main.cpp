@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 #ifndef CLAZY
     QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
 #else
-    QGuiApplication* app = new QGuiApplication(argc, argv);
+    QScopedPointer<QGuiApplication> app(new QGuiApplication(argc, argv));
 #endif
 
     app->setApplicationName(QStringLiteral("harbour-aladrati"));
@@ -58,20 +58,27 @@ int main(int argc, char *argv[])
     }
 #endif
 
-    QDir dataDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
-    QDir cacheDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
+    QDir *dataDir = new QDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    QDir *cacheDir = new QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
 
-    if (Q_UNLIKELY(!dataDir.exists())) {
-        if (!dataDir.mkpath(dataDir.absolutePath())) {
+    if (Q_UNLIKELY(!dataDir->exists())) {
+        if (!dataDir->mkpath(dataDir->absolutePath())) {
+            delete dataDir;
+            delete cacheDir;
             qFatal("Failed to create data directory.");
         }
     }
 
-    if (Q_UNLIKELY(!cacheDir.exists())) {
-        if (!cacheDir.mkpath(cacheDir.absolutePath())) {
+    if (Q_UNLIKELY(!cacheDir->exists())) {
+        if (!cacheDir->mkpath(cacheDir->absolutePath())) {
+            delete dataDir;
+            delete cacheDir;
             qFatal("Failed to create cache directory.");
         }
     }
+
+    delete dataDir;
+    delete cacheDir;
 
 #ifndef CLAZY
     QScopedPointer<QQuickView> view(SailfishApp::createView());
