@@ -19,6 +19,16 @@ QT += sql
 
 DEFINES += APP_VERSION=\"\\\"$${VERSION}\\\"\"
 
+isEmpty(INSTALL_TRANSLATIONS_DIR): INSTALL_TRANSLATIONS_DIR = /usr/share/harbour-aladrati/l10n
+
+langfiles.path = $$INSTALL_TRANSLATIONS_DIR
+langfiles.files = ../translations/*.qm
+INSTALLS += langfiles
+
+contimgs.path = /usr/share/harbour-aladrati/images/contributors
+contimgs.files = images/contributors/*
+INSTALLS += contimgs
+
 SOURCES += \
     src/main.cpp
 
@@ -31,4 +41,8 @@ DISTFILES += \
     rpm/harbour-aladrati.spec \
     qml/pages/MainPage.qml \
     qml/cover/CoverPage.qml \
-    harbour-aladrati.desktop
+    harbour-aladrati.desktop \
+    qml/pages/About.qml \
+    qml/models/ChangelogModel.qml \
+    qml/models/LicensesModel.qml \
+    qml/models/ContributorsModel.qml

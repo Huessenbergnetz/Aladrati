@@ -31,11 +31,19 @@ Page {
 
         PullDownMenu {
             MenuItem {
-                text: qsTr("About")
+                //% "About"
+                text: qsTrId("aladrati-about")
+                onClicked: pageStack.push(Qt.resolvedUrl("About.qml"))
             }
 
             MenuItem {
-                text: qsTr("New test")
+                //% "Settings"
+                text: qsTrId("aladrati-settings")
+            }
+
+            MenuItem {
+                //% "New test"
+                text: qsTrId("aladrati-new-test")
             }
         }
 
@@ -51,8 +59,10 @@ Page {
 
         ViewPlaceholder {
             enabled: testListView.count === 0
-            text: qsTr("No recorded tests")
-            hintText: qsTr("Use the pull down menu to start a new internet connection speed test")
+            //% "No recorded tests"
+            text: qsTrId("aladrati-no-recorded-tests")
+            //% "Use the pull down menu to start a new internet connection speed test"
+            hintText: qsTrId("aladrati-no-recorded-tests-hint")
         }
     }
 }

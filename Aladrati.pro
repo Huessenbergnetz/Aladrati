@@ -9,4 +9,5 @@ DISTFILES += \
     rpm/harbour-aladrati.changes
 
 SUBDIRS += \
-    sailfishos
+    sailfishos \
+    BT_SFOS_Components

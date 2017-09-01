@@ -29,7 +29,7 @@ BuildRequires:  pkgconfig(Qt5Sql)
 BuildRequires:  desktop-file-utils
 
 %description
-Short description of my Sailfish OS Application
+Internet connection speed test application that uses the servers provided by speedtest.net.
 
 
 %prep

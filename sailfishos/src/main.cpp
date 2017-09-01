@@ -20,6 +20,14 @@
 #include <QtQuick>
 #endif
 
+#include <QtQml>
+#include <QGuiApplication>
+#include <QQuickView>
+#include <QLocale>
+#include <QTranslator>
+#include <QDir>
+#include <QStandardPaths>
+
 #ifndef CLAZY
 #include <sailfishapp.h>
 #endif
@@ -28,7 +36,7 @@
 int main(int argc, char *argv[])
 {
 #ifndef CLAZY
-    QGuiApplication* app = SailfishApp::application(argc, argv);
+    QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
 #else
     QGuiApplication* app = new QGuiApplication(argc, argv);
 #endif
@@ -38,9 +46,37 @@ int main(int argc, char *argv[])
     app->setApplicationVersion(QStringLiteral(APP_VERSION));
 
 #ifndef CLAZY
-    QQuickView *view = SailfishApp::createView();
+    const QString l10nDir = SailfishApp::pathTo(QStringLiteral("l10n")).toString(QUrl::RemoveScheme);
+    QTranslator *appTrans = new QTranslator(app.data());
+    if (Q_LIKELY(appTrans->load(QLocale(), QStringLiteral("aladrati"), QStringLiteral("_"), l10nDir, QStringLiteral(".qm")))) {
+        app->installTranslator(appTrans);
+    }
+
+    QTranslator *btscTrans = new QTranslator(app.data());
+    if (Q_LIKELY(btscTrans->load(QLocale(), QStringLiteral("btsc"), QStringLiteral("_"), l10nDir, QStringLiteral(".qm")))) {
+        app->installTranslator(btscTrans);
+    }
+#endif
+
+    QDir dataDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    QDir cacheDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
+
+    if (Q_UNLIKELY(!dataDir.exists())) {
+        if (!dataDir.mkpath(dataDir.absolutePath())) {
+            qFatal("Failed to create data directory.");
+        }
+    }
+
+    if (Q_UNLIKELY(!cacheDir.exists())) {
+        if (!cacheDir.mkpath(cacheDir.absolutePath())) {
+            qFatal("Failed to create cache directory.");
+        }
+    }
+
+#ifndef CLAZY
+    QScopedPointer<QQuickView> view(SailfishApp::createView());
 #else
-    QQuickView *view = new QQuickView();
+    QScopedPointer<QQuickView> view(new QQuickView());
 #endif
 
 #ifndef CLAZY

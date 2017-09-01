@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[aladrati.main]
+file_filter = translations/aladrati_<lang>.ts
+source_file = translations/aladrati.ts
+source_lang = en
+type = QT
