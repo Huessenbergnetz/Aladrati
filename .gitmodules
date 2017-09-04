@@ -4,3 +4,6 @@
 [submodule "speedtest-cli"]
 	path = speedtest-cli
 	url = https://github.com/sivel/speedtest-cli.git
+[submodule "libaladrati"]
+	path = libaladrati
+	url = https://github.com/Huessenbergnetz/libaladrati.git
